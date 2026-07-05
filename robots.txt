@@ -1,5 +1,11 @@
 User-agent: *
+Allow: /
+Disallow: /_posts/
+Disallow: /_tabs/
+Disallow: /_layouts/
+Disallow: /_includes/
+Disallow: /_sass/
+Disallow: /docs/
+Disallow: /tools/
 
-Disallow: /norobots/
-
-Sitemap: http://gesen.me/sitemap.xml
+Sitemap: https://gesen.me/sitemap.xml

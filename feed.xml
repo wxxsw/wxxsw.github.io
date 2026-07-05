@@ -1,1 +1,12 @@
-<feed xmlns="http://www.w3.org/2005/Atom"> <id>http://gesen.me/</id><title>森仔的博客</title><subtitle>Swift iOS 编程经验和心得.</subtitle> <updated>2021-02-01T18:40:36+08:00</updated> <author> <name>森仔</name> <uri>http://gesen.me/</uri> </author><link rel="self" type="application/atom+xml" href="http://gesen.me/feed.xml"/><link rel="alternate" type="text/html" hreflang="en" href="http://gesen.me/"/> <generator uri="https://jekyllrb.com/" version="4.2.0">Jekyll</generator> <rights> © 2021 森仔 </rights> <icon>/assets/img/favicons/favicon.ico</icon> <logo>/assets/img/favicons/favicon-96x96.png</logo> <entry><title>Hello, World!</title><link href="http://gesen.me/1024/01/Hello-World/" rel="alternate" type="text/html" title="Hello, World!" /><published>1024-01-01T00:01:26+08:05</published> <updated>1024-01-01T00:01:26+08:05</updated> <id>http://gesen.me/1024/01/Hello-World/</id> <content src="http://gesen.me/1024/01/Hello-World/" /> <author> <name>森仔</name> </author> <summary> Hello, World! 你好，世界！ </summary> </entry> </feed>
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <id>https://gesen.me/</id>
+  <title>Gesen 的开源作品</title>
+  <updated>2026-07-05T00:00:00+08:00</updated>
+  <author>
+    <name>Gesen</name>
+    <uri>https://gesen.me/</uri>
+  </author>
+  <link rel="alternate" type="text/html" href="https://gesen.me/"/>
+  <link rel="self" type="application/atom+xml" href="https://gesen.me/feed.xml"/>
+</feed>
