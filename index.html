@@ -1,4 +1,1027 @@
----
-layout: home
-# Index page
----
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Gesen 的开源作品</title>
+  <meta name="description" content="Gesen 的 GitHub 作品页，收录 SwiftUI、iOS 组件、视频播放和工程效率相关项目。">
+  <meta name="theme-color" content="#f4f1ea">
+  <meta property="og:title" content="Gesen 的开源作品">
+  <meta property="og:description" content="一些在 GitHub 上长期维护和偶尔冒出来的项目，主要围绕 iOS、SwiftUI 和工程效率。">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://gesen.me/">
+  <meta property="og:image" content="https://avatars.githubusercontent.com/u/921863?v=4">
+  <link rel="canonical" href="https://gesen.me/">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      color-scheme: light;
+      --paper: #eef0e8;
+      --paper-strong: #fbfaf4;
+      --ink: #171512;
+      --muted: #5f625c;
+      --line: #24211c;
+      --line-soft: rgba(23, 21, 18, .16);
+      --blue: #2858d7;
+      --red: #cf432a;
+      --green: #387455;
+      --steel: #68717a;
+      --shadow: rgba(23, 21, 18, .12);
+      --radius: 8px;
+      --sans: "IBM Plex Sans", "Avenir Next", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+      --serif: "DM Serif Display", "Iowan Old Style", "Songti SC", serif;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      background: var(--paper);
+    }
+
+    body {
+      margin: 0;
+      min-width: 320px;
+      color: var(--ink);
+      font-family: var(--sans);
+      letter-spacing: 0;
+      background:
+        linear-gradient(135deg, transparent 0 61%, rgba(207, 67, 42, .13) 61% 61.35%, transparent 61.35%),
+        linear-gradient(90deg, rgba(40, 88, 215, .10) 1px, transparent 1px),
+        linear-gradient(180deg, rgba(23, 21, 18, .08) 1px, transparent 1px),
+        var(--paper);
+      background-size: auto, 42px 42px, 42px 42px, auto;
+    }
+
+    body::before {
+      position: fixed;
+      inset: 0;
+      z-index: -2;
+      pointer-events: none;
+      content: "";
+      opacity: .36;
+      background-image:
+        repeating-linear-gradient(0deg, rgba(23, 21, 18, .04), rgba(23, 21, 18, .04) 1px, transparent 1px, transparent 4px);
+      mix-blend-mode: multiply;
+    }
+
+    a {
+      color: inherit;
+      text-decoration-color: rgba(23, 21, 18, .32);
+      text-decoration-thickness: 1px;
+      text-underline-offset: .2em;
+      transition: color .18s ease, text-decoration-color .18s ease, transform .18s ease;
+    }
+
+    a:hover {
+      color: var(--blue);
+      text-decoration-color: currentColor;
+    }
+
+    img {
+      display: block;
+      max-width: 100%;
+    }
+
+    .site-shell {
+      overflow: hidden;
+    }
+
+    .topbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 20;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: center;
+      gap: 1rem;
+      padding: 1rem 1.4rem;
+      color: var(--ink);
+      background: rgba(244, 241, 234, .78);
+      border-bottom: 1px solid var(--line-soft);
+      backdrop-filter: blur(18px);
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: .75rem;
+      width: fit-content;
+      font-weight: 700;
+      text-decoration: none;
+    }
+
+    .brand-mark {
+      display: grid;
+      width: 2rem;
+      height: 2rem;
+      place-items: center;
+      color: var(--paper-strong);
+      font-size: .82rem;
+      background: var(--ink);
+      border-radius: 50%;
+      box-shadow: 0 0 0 3px rgba(207, 67, 42, .22);
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      color: var(--muted);
+      font-size: .92rem;
+      font-weight: 600;
+    }
+
+    .hero {
+      position: relative;
+      display: grid;
+      min-height: 78svh;
+      padding: 8.5rem 1.4rem 6rem;
+      isolation: isolate;
+    }
+
+    .hero::after {
+      position: absolute;
+      right: -9rem;
+      bottom: 1.5rem;
+      z-index: -1;
+      width: 36rem;
+      height: 15rem;
+      content: "";
+      border: 1px solid rgba(23, 21, 18, .14);
+      background:
+        repeating-linear-gradient(90deg, rgba(40, 88, 215, .12) 0 1px, transparent 1px 2.2rem),
+        linear-gradient(135deg, rgba(56, 116, 85, .12), transparent 58%);
+      box-shadow: 0 28px 80px rgba(23, 21, 18, .08);
+      transform: rotate(-8deg);
+    }
+
+    .hero-inner,
+    .section-inner {
+      width: min(1180px, 100%);
+      margin: 0 auto;
+    }
+
+    .portrait {
+      position: absolute;
+      top: 7.6rem;
+      right: max(1.4rem, calc((100vw - 1180px) / 2));
+      z-index: -1;
+      width: 27rem;
+      height: 27rem;
+      object-fit: cover;
+      border: 1px solid rgba(23, 21, 18, .22);
+      border-radius: 50%;
+      filter: grayscale(.82) contrast(1.08);
+      opacity: .24;
+      transform: rotate(3deg);
+    }
+
+    .hero-kicker {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .65rem;
+      align-items: center;
+      margin: 0 0 1.5rem;
+      color: var(--muted);
+      font-size: .78rem;
+      font-weight: 700;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+
+    .hero-kicker::before {
+      width: 3.7rem;
+      height: 2px;
+      content: "";
+      background: var(--red);
+    }
+
+    h1 {
+      max-width: 850px;
+      margin: 0;
+      font-family: var(--serif);
+      font-size: 5.6rem;
+      font-weight: 400;
+      line-height: .94;
+      letter-spacing: 0;
+    }
+
+    .hero-copy {
+      max-width: 650px;
+      margin: 1.6rem 0 0;
+      color: #34312d;
+      font-size: 1.2rem;
+      line-height: 1.85;
+    }
+
+    .hero-meta {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 1px;
+      max-width: 860px;
+      margin-top: 3.2rem;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--line);
+      box-shadow: 0 24px 70px var(--shadow);
+    }
+
+    .stat {
+      min-height: 6.3rem;
+      padding: 1rem;
+      background: rgba(255, 250, 240, .88);
+    }
+
+    .stat strong {
+      display: block;
+      font-family: var(--serif);
+      font-size: 2.25rem;
+      font-weight: 400;
+      line-height: 1;
+      white-space: nowrap;
+    }
+
+    .stat span {
+      display: block;
+      margin-top: .5rem;
+      color: var(--muted);
+      font-size: .8rem;
+      font-weight: 700;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+    }
+
+    .works {
+      position: relative;
+      padding: 5rem 1.4rem 7rem;
+      background: #171512;
+      color: #f8f0df;
+    }
+
+    .works::before {
+      position: absolute;
+      inset: 0;
+      content: "";
+      background:
+        linear-gradient(90deg, rgba(248, 240, 223, .08) 1px, transparent 1px),
+        linear-gradient(180deg, rgba(248, 240, 223, .07) 1px, transparent 1px);
+      background-size: 52px 52px;
+      mask-image: linear-gradient(180deg, #000 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .section-head {
+      position: relative;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(18rem, .65fr);
+      gap: 2rem;
+      align-items: end;
+      margin-bottom: 2rem;
+    }
+
+    .eyebrow {
+      margin: 0 0 .9rem;
+      color: #ef8d6d;
+      font-size: .78rem;
+      font-weight: 700;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+
+    h2 {
+      max-width: 720px;
+      margin: 0;
+      font-family: var(--serif);
+      font-size: 3.2rem;
+      font-weight: 400;
+      line-height: 1;
+      letter-spacing: 0;
+    }
+
+    .section-copy {
+      margin: 0;
+      color: rgba(248, 240, 223, .72);
+      font-size: 1rem;
+      line-height: 1.75;
+    }
+
+    .project-grid {
+      position: relative;
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 1px;
+      overflow: hidden;
+      border: 1px solid rgba(248, 240, 223, .24);
+      border-radius: var(--radius);
+      background: rgba(248, 240, 223, .24);
+    }
+
+    .project-card {
+      position: relative;
+      display: grid;
+      min-height: 19rem;
+      padding: 1.15rem;
+      background:
+        linear-gradient(180deg, rgba(255, 250, 240, .08), transparent 44%),
+        #201d18;
+      transition: background .18s ease, transform .18s ease;
+    }
+
+    .project-card:hover {
+      background:
+        linear-gradient(180deg, rgba(40, 88, 215, .18), transparent 46%),
+        #26221c;
+      transform: translateY(-2px);
+    }
+
+    .project-card.featured::before {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: .36rem;
+      height: 100%;
+      content: "";
+      background: var(--red);
+    }
+
+    .project-topline {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      min-height: 1.6rem;
+      color: rgba(248, 240, 223, .55);
+      font-size: .77rem;
+      font-weight: 700;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    .project-title {
+      align-self: start;
+      margin: .85rem 0 0;
+      color: #fff8e9;
+      font-family: var(--serif);
+      font-size: 1.8rem;
+      line-height: 1.08;
+      text-decoration: none;
+      overflow-wrap: anywhere;
+    }
+
+    .project-title:hover {
+      color: #ffb196;
+    }
+
+    .project-description {
+      min-height: 5rem;
+      margin: 1rem 0;
+      color: rgba(248, 240, 223, .76);
+      font-size: .98rem;
+      line-height: 1.65;
+      overflow-wrap: anywhere;
+    }
+
+    .project-stats {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: .55rem;
+      align-self: end;
+      margin: 0;
+    }
+
+    .project-stats div {
+      min-width: 0;
+      padding-top: .7rem;
+      border-top: 1px solid rgba(248, 240, 223, .18);
+    }
+
+    .project-stats dt {
+      color: rgba(248, 240, 223, .45);
+      font-size: .68rem;
+      font-weight: 700;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    .project-stats dd {
+      margin: .25rem 0 0;
+      color: #fff8e9;
+      font-weight: 700;
+      overflow-wrap: anywhere;
+    }
+
+    .project-link {
+      display: inline-flex;
+      gap: .35rem;
+      align-items: center;
+      width: fit-content;
+      margin-top: 1rem;
+      color: #f0a087;
+      font-size: .9rem;
+      font-weight: 700;
+      text-decoration: none;
+    }
+
+    .project-link:hover {
+      color: #f8f0df;
+      transform: translateX(3px);
+    }
+
+    .source {
+      padding: 3.2rem 1.4rem;
+      color: var(--ink);
+      background: var(--paper-strong);
+      border-top: 1px solid rgba(23, 21, 18, .12);
+    }
+
+    .source-inner {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 1.4rem;
+      align-items: center;
+      width: min(1180px, 100%);
+      margin: 0 auto;
+    }
+
+    .source p {
+      max-width: 680px;
+      margin: .6rem 0 0;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    .source h2 {
+      font-size: 2.4rem;
+    }
+
+    .source-link {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 11rem;
+      min-height: 3rem;
+      padding: .75rem 1rem;
+      color: var(--paper-strong);
+      font-weight: 700;
+      text-decoration: none;
+      background: var(--ink);
+      border: 1px solid var(--ink);
+      border-radius: var(--radius);
+    }
+
+    .source-link:hover {
+      color: var(--ink);
+      background: transparent;
+      transform: translateY(-2px);
+    }
+
+    @media (max-width: 980px) {
+      h1 {
+        max-width: 760px;
+        font-size: 4.2rem;
+      }
+
+      .hero-copy {
+        max-width: 560px;
+      }
+
+      .hero-meta,
+      .project-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .portrait {
+        width: 20rem;
+        height: 20rem;
+        opacity: .18;
+      }
+
+      .section-head,
+      .source-inner {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .topbar {
+        grid-template-columns: 1fr;
+        gap: .75rem;
+        padding: .85rem 1rem;
+      }
+
+      .nav-links {
+        justify-content: space-between;
+      }
+
+      .hero {
+        min-height: 72svh;
+        padding: 8.8rem 1rem 4rem;
+      }
+
+      h1 {
+        font-size: 3rem;
+        line-height: 1;
+      }
+
+      h2 {
+        font-size: 2.45rem;
+      }
+
+      .hero-copy {
+        font-size: 1.03rem;
+      }
+
+      .hero-meta,
+      .project-grid,
+      .project-stats {
+        grid-template-columns: 1fr;
+      }
+
+      .stat {
+        min-height: 5.2rem;
+      }
+
+      .portrait {
+        top: 10rem;
+        right: -5rem;
+        width: 17rem;
+        height: 17rem;
+      }
+
+      .works {
+        padding: 3.8rem 1rem 5rem;
+      }
+
+      .project-card {
+        min-height: auto;
+      }
+
+      .project-description {
+        min-height: auto;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        scroll-behavior: auto !important;
+        transition-duration: .01ms !important;
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="site-shell" id="top">
+    <header class="topbar" aria-label="Primary">
+      <a class="brand" href="#top" aria-label="Gesen home">
+        <span class="brand-mark">G</span>
+        <span>gesen.me</span>
+      </a>
+      <nav class="nav-links" aria-label="Site navigation">
+        <a href="#works">作品</a>
+        <a href="https://github.com/wxxsw" target="_blank" rel="noreferrer">GitHub</a>
+        <a href="https://github.com/wxxsw?tab=repositories" target="_blank" rel="noreferrer">全部仓库</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="hero" aria-labelledby="intro-title">
+        <img class="portrait" src="https://avatars.githubusercontent.com/u/921863?v=4" alt="Gesen 的 GitHub 头像" width="432" height="432" loading="eager" decoding="async">
+        <div class="hero-inner">
+          <p class="hero-kicker">Gesen / Beijing / @wxxsw</p>
+          <h1 id="intro-title">把重复留给工具，把判断留给人。</h1>
+          <p class="hero-copy">
+            主题切换、视频播放器、图片预览、刷新控件，还有一些工程效率相关的小实验。能复用的东西，就放到 GitHub 上继续打磨。
+          </p>
+
+          <div class="hero-meta" aria-label="GitHub 概览">
+            <div class="stat">
+              <strong data-stat="works">20</strong>
+              <span>项目</span>
+            </div>
+            <div class="stat">
+              <strong data-stat="stars">6.7k</strong>
+              <span>Stars</span>
+            </div>
+            <div class="stat">
+              <strong data-stat="forks">859</strong>
+              <span>Forks</span>
+            </div>
+            <div class="stat">
+              <strong data-stat="followers">401</strong>
+              <span>关注者</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="works" id="works" aria-labelledby="works-title">
+        <div class="section-inner">
+          <div class="section-head">
+            <div>
+              <p class="eyebrow">开源项目</p>
+              <h2 id="works-title">项目清单</h2>
+            </div>
+            <p class="section-copy">
+              常用和被更多人 star 的项目排在前面，小仓库也留着，方便顺着名字找到源码。仓库数据：<span data-updated>2026-07-05</span>。
+            </p>
+          </div>
+
+          <div class="project-grid" id="project-grid">
+            <article class="project-card featured">
+              <div class="project-topline"><span>Swift</span><span>2.5k stars</span></div>
+              <a class="project-title" href="https://github.com/wxxsw/SwiftTheme" target="_blank" rel="noreferrer">SwiftTheme</a>
+              <p class="project-description">iOS 主题和换肤管理，支持暗色模式，适合需要多套视觉风格的 App。</p>
+              <dl class="project-stats">
+                <div><dt>Forks</dt><dd>311</dd></div>
+                <div><dt>更新</dt><dd>2026-07-04</dd></div>
+                <div><dt>分支</dt><dd>master</dd></div>
+              </dl>
+              <a class="project-link" href="https://github.com/wxxsw/SwiftTheme" target="_blank" rel="noreferrer">查看仓库 <span aria-hidden="true">-></span></a>
+            </article>
+
+            <article class="project-card featured">
+              <div class="project-topline"><span>Swift</span><span>1.2k stars</span></div>
+              <a class="project-title" href="https://github.com/wxxsw/SwiftUI-WeChat" target="_blank" rel="noreferrer">SwiftUI-WeChat</a>
+              <p class="project-description">用 SwiftUI 复刻微信 7.0 的界面和交互，适合看 SwiftUI 真实页面怎么拆。</p>
+              <dl class="project-stats">
+                <div><dt>Forks</dt><dd>149</dd></div>
+                <div><dt>更新</dt><dd>2026-07-04</dd></div>
+                <div><dt>分支</dt><dd>master</dd></div>
+              </dl>
+              <a class="project-link" href="https://github.com/wxxsw/SwiftUI-WeChat" target="_blank" rel="noreferrer">查看仓库 <span aria-hidden="true">-></span></a>
+            </article>
+
+            <article class="project-card featured">
+              <div class="project-topline"><span>Swift</span><span>777 stars</span></div>
+              <a class="project-title" href="https://github.com/wxxsw/VideoPlayer" target="_blank" rel="noreferrer">VideoPlayer</a>
+              <p class="project-description">SwiftUI 视频播放器，处理缓存、预加载和自定义控制层这些更贴近日常业务的细节。</p>
+              <dl class="project-stats">
+                <div><dt>Forks</dt><dd>118</dd></div>
+                <div><dt>更新</dt><dd>2026-06-19</dd></div>
+                <div><dt>分支</dt><dd>main</dd></div>
+              </dl>
+              <a class="project-link" href="https://github.com/wxxsw/VideoPlayer" target="_blank" rel="noreferrer">查看仓库 <span aria-hidden="true">-></span></a>
+            </article>
+
+            <article class="project-card featured">
+              <div class="project-topline"><span>Swift</span><span>697 stars</span></div>
+              <a class="project-title" href="https://github.com/wxxsw/GSMessages" target="_blank" rel="noreferrer">GSMessages</a>
+              <p class="project-description">Swift 消息提示组件，适合放轻量通知、状态反馈和短提示。</p>
+              <dl class="project-stats">
+                <div><dt>Forks</dt><dd>63</dd></div>
+                <div><dt>更新</dt><dd>2026-04-21</dd></div>
+                <div><dt>分支</dt><dd>master</dd></div>
+              </dl>
+              <a class="project-link" href="https://github.com/wxxsw/GSMessages" target="_blank" rel="noreferrer">查看仓库 <span aria-hidden="true">-></span></a>
+            </article>
+
+            <article class="project-card featured">
+              <div class="project-topline"><span>Swift</span><span>515 stars</span></div>
+              <a class="project-title" href="https://github.com/wxxsw/Refresh" target="_blank" rel="noreferrer">Refresh</a>
+              <p class="project-description">SwiftUI 下拉刷新和上拉加载控件，尽量把常见列表状态处理得顺手一点。</p>
+              <dl class="project-stats">
+                <div><dt>Forks</dt><dd>42</dd></div>
+                <div><dt>更新</dt><dd>2026-05-20</dd></div>
+                <div><dt>分支</dt><dd>main</dd></div>
+              </dl>
+              <a class="project-link" href="https://github.com/wxxsw/Refresh" target="_blank" rel="noreferrer">查看仓库 <span aria-hidden="true">-></span></a>
+            </article>
+
+            <article class="project-card featured">
+              <div class="project-topline"><span>Swift</span><span>512 stars</span></div>
+              <a class="project-title" href="https://github.com/wxxsw/GSPlayer" target="_blank" rel="noreferrer">GSPlayer</a>
+              <p class="project-description">UIKit 方向的视频播放器，覆盖边下边播、预加载、全屏转场和控制层定制。</p>
+              <dl class="project-stats">
+                <div><dt>Forks</dt><dd>116</dd></div>
+                <div><dt>更新</dt><dd>2026-07-02</dd></div>
+                <div><dt>分支</dt><dd>master</dd></div>
+              </dl>
+              <a class="project-link" href="https://github.com/wxxsw/GSPlayer" target="_blank" rel="noreferrer">查看仓库 <span aria-hidden="true">-></span></a>
+            </article>
+
+            <article class="project-card">
+              <div class="project-topline"><span>Swift</span><span>289 stars</span></div>
+              <a class="project-title" href="https://github.com/wxxsw/GSImageViewerController" target="_blank" rel="noreferrer">GSImageViewerController</a>
+              <p class="project-description">带缩放转场的图片浏览控制器，偏 UIKit 场景，用起来直接。</p>
+              <dl class="project-stats">
+                <div><dt>Forks</dt><dd>37</dd></div>
+                <div><dt>更新</dt><dd>2026-06-02</dd></div>
+                <div><dt>分支</dt><dd>master</dd></div>
+              </dl>
+              <a class="project-link" href="https://github.com/wxxsw/GSImageViewerController" target="_blank" rel="noreferrer">查看仓库 <span aria-hidden="true">-></span></a>
+            </article>
+
+            <article class="project-card">
+              <div class="project-topline"><span>Swift</span><span>57 stars</span></div>
+              <a class="project-title" href="https://github.com/wxxsw/GSCaptchaButton" target="_blank" rel="noreferrer">GSCaptchaButton</a>
+              <p class="project-description">为普通按钮增加验证码倒计时功能，不影响按钮样式。</p>
+              <dl class="project-stats">
+                <div><dt>Forks</dt><dd>5</dd></div>
+                <div><dt>更新</dt><dd>2025-09-18</dd></div>
+                <div><dt>分支</dt><dd>master</dd></div>
+              </dl>
+              <a class="project-link" href="https://github.com/wxxsw/GSCaptchaButton" target="_blank" rel="noreferrer">查看仓库 <span aria-hidden="true">-></span></a>
+            </article>
+
+            <article class="project-card">
+              <div class="project-topline"><span>Swift</span><span>33 stars</span></div>
+              <a class="project-title" href="https://github.com/wxxsw/GSRefresh" target="_blank" rel="noreferrer">GSRefresh</a>
+              <p class="project-description">可自定义的下拉刷新和加载更多控件，适合老项目里继续用。</p>
+              <dl class="project-stats">
+                <div><dt>Forks</dt><dd>5</dd></div>
+                <div><dt>更新</dt><dd>2025-04-11</dd></div>
+                <div><dt>分支</dt><dd>master</dd></div>
+              </dl>
+              <a class="project-link" href="https://github.com/wxxsw/GSRefresh" target="_blank" rel="noreferrer">查看仓库 <span aria-hidden="true">-></span></a>
+            </article>
+
+            <article class="project-card">
+              <div class="project-topline"><span>Swift</span><span>33 stars</span></div>
+              <a class="project-title" href="https://github.com/wxxsw/TabBar" target="_blank" rel="noreferrer">TabBar</a>
+              <p class="project-description">SwiftUI 自定义 TabBar，给默认 TabView 留出更多可控空间。</p>
+              <dl class="project-stats">
+                <div><dt>Forks</dt><dd>2</dd></div>
+                <div><dt>更新</dt><dd>2026-01-06</dd></div>
+                <div><dt>分支</dt><dd>master</dd></div>
+              </dl>
+              <a class="project-link" href="https://github.com/wxxsw/TabBar" target="_blank" rel="noreferrer">查看仓库 <span aria-hidden="true">-></span></a>
+            </article>
+
+            <article class="project-card">
+              <div class="project-topline"><span>Swift</span><span>27 stars</span></div>
+              <a class="project-title" href="https://github.com/wxxsw/GSAlert" target="_blank" rel="noreferrer">GSAlert</a>
+              <p class="project-description">Swift 写的 UIAlertController 封装，照顾 iOS 7 之后的旧系统兼容。</p>
+              <dl class="project-stats">
+                <div><dt>Forks</dt><dd>3</dd></div>
+                <div><dt>更新</dt><dd>2026-06-17</dd></div>
+                <div><dt>分支</dt><dd>master</dd></div>
+              </dl>
+              <a class="project-link" href="https://github.com/wxxsw/GSAlert" target="_blank" rel="noreferrer">查看仓库 <span aria-hidden="true">-></span></a>
+            </article>
+
+            <article class="project-card">
+              <div class="project-topline"><span>Objective-C++</span><span>22 stars</span></div>
+              <a class="project-title" href="https://github.com/wxxsw/POP-SnapKit" target="_blank" rel="noreferrer">POP-SnapKit</a>
+              <p class="project-description">把 SnapKit 和 Facebook Pop 动画框架接在一起，用约束写动画更省心。</p>
+              <dl class="project-stats">
+                <div><dt>Forks</dt><dd>4</dd></div>
+                <div><dt>更新</dt><dd>2023-11-28</dd></div>
+                <div><dt>分支</dt><dd>master</dd></div>
+              </dl>
+              <a class="project-link" href="https://github.com/wxxsw/POP-SnapKit" target="_blank" rel="noreferrer">查看仓库 <span aria-hidden="true">-></span></a>
+            </article>
+
+            <article class="project-card">
+              <div class="project-topline"><span>Swift</span><span>9 stars</span></div>
+              <a class="project-title" href="https://github.com/wxxsw/GSPhotos" target="_blank" rel="noreferrer">GSPhotos</a>
+              <p class="project-description">PhotosKit + ALAssetsLibrary, 支持 iOS 7+，基于 Swift。</p>
+              <dl class="project-stats">
+                <div><dt>Forks</dt><dd>3</dd></div>
+                <div><dt>更新</dt><dd>2023-03-31</dd></div>
+                <div><dt>分支</dt><dd>master</dd></div>
+              </dl>
+              <a class="project-link" href="https://github.com/wxxsw/GSPhotos" target="_blank" rel="noreferrer">查看仓库 <span aria-hidden="true">-></span></a>
+            </article>
+
+            <article class="project-card">
+              <div class="project-topline"><span>Swift</span><span>8 stars</span></div>
+              <a class="project-title" href="https://github.com/wxxsw/GSChange" target="_blank" rel="noreferrer">GSChange</a>
+              <p class="project-description">同步点赞、关注这类状态变化的小工具，解决多处界面状态不一致的问题。</p>
+              <dl class="project-stats">
+                <div><dt>Forks</dt><dd>1</dd></div>
+                <div><dt>更新</dt><dd>2023-03-31</dd></div>
+                <div><dt>分支</dt><dd>master</dd></div>
+              </dl>
+              <a class="project-link" href="https://github.com/wxxsw/GSChange" target="_blank" rel="noreferrer">查看仓库 <span aria-hidden="true">-></span></a>
+            </article>
+
+            <article class="project-card">
+              <div class="project-topline"><span>Swift</span><span>3 stars</span></div>
+              <a class="project-title" href="https://github.com/wxxsw/GSVerificationCode" target="_blank" rel="noreferrer">GSVerificationCode</a>
+              <p class="project-description">验证码控件，支持设置输入长度、自定义外观等。</p>
+              <dl class="project-stats">
+                <div><dt>Forks</dt><dd>0</dd></div>
+                <div><dt>更新</dt><dd>2023-03-31</dd></div>
+                <div><dt>分支</dt><dd>master</dd></div>
+              </dl>
+              <a class="project-link" href="https://github.com/wxxsw/GSVerificationCode" target="_blank" rel="noreferrer">查看仓库 <span aria-hidden="true">-></span></a>
+            </article>
+
+            <article class="project-card">
+              <div class="project-topline"><span>Resource</span><span>2 stars</span></div>
+              <a class="project-title" href="https://github.com/wxxsw/SwiftThemeResources" target="_blank" rel="noreferrer">SwiftThemeResources</a>
+              <p class="project-description">SwiftTheme 示例项目用到的资源文件，单独放出来方便引用。</p>
+              <dl class="project-stats">
+                <div><dt>Forks</dt><dd>0</dd></div>
+                <div><dt>更新</dt><dd>2023-03-31</dd></div>
+                <div><dt>分支</dt><dd>master</dd></div>
+              </dl>
+              <a class="project-link" href="https://github.com/wxxsw/SwiftThemeResources" target="_blank" rel="noreferrer">查看仓库 <span aria-hidden="true">-></span></a>
+            </article>
+
+            <article class="project-card">
+              <div class="project-topline"><span>HTML</span><span>1 star</span></div>
+              <a class="project-title" href="https://github.com/wxxsw/ctrl-alt-ship" target="_blank" rel="noreferrer">ctrl-alt-ship</a>
+              <p class="project-description">把 AI 辅助工程里的常见场景整理成一张图，偏实践，不讲玄学。</p>
+              <dl class="project-stats">
+                <div><dt>Forks</dt><dd>0</dd></div>
+                <div><dt>更新</dt><dd>2026-07-05</dd></div>
+                <div><dt>分支</dt><dd>main</dd></div>
+              </dl>
+              <a class="project-link" href="https://github.com/wxxsw/ctrl-alt-ship" target="_blank" rel="noreferrer">查看仓库 <span aria-hidden="true">-></span></a>
+            </article>
+
+            <article class="project-card">
+              <div class="project-topline"><span>Resource</span><span>1 star</span></div>
+              <a class="project-title" href="https://github.com/wxxsw/ImageViewer" target="_blank" rel="noreferrer">ImageViewer</a>
+              <p class="project-description">图片浏览相关项目的归档仓库，留作参考。</p>
+              <dl class="project-stats">
+                <div><dt>Forks</dt><dd>0</dd></div>
+                <div><dt>更新</dt><dd>2023-03-31</dd></div>
+                <div><dt>分支</dt><dd>master</dd></div>
+              </dl>
+              <a class="project-link" href="https://github.com/wxxsw/ImageViewer" target="_blank" rel="noreferrer">查看仓库 <span aria-hidden="true">-></span></a>
+            </article>
+
+            <article class="project-card">
+              <div class="project-topline"><span>TypeScript</span><span>1 star</span></div>
+              <a class="project-title" href="https://github.com/wxxsw/skillcheck" target="_blank" rel="noreferrer">skillcheck</a>
+              <p class="project-description">给 agent skill 做安全评分和证据检查的小工具，偏工程验证。</p>
+              <dl class="project-stats">
+                <div><dt>Forks</dt><dd>0</dd></div>
+                <div><dt>更新</dt><dd>2026-07-05</dd></div>
+                <div><dt>分支</dt><dd>main</dd></div>
+              </dl>
+              <a class="project-link" href="https://github.com/wxxsw/skillcheck" target="_blank" rel="noreferrer">查看仓库 <span aria-hidden="true">-></span></a>
+            </article>
+
+            <article class="project-card">
+              <div class="project-topline"><span>C</span><span>0 stars</span></div>
+              <a class="project-title" href="https://github.com/wxxsw/LAME" target="_blank" rel="noreferrer">LAME</a>
+              <p class="project-description">C 代码归档仓库，保留在公开项目列表里。</p>
+              <dl class="project-stats">
+                <div><dt>Forks</dt><dd>0</dd></div>
+                <div><dt>更新</dt><dd>2024-06-27</dd></div>
+                <div><dt>分支</dt><dd>master</dd></div>
+              </dl>
+              <a class="project-link" href="https://github.com/wxxsw/LAME" target="_blank" rel="noreferrer">查看仓库 <span aria-hidden="true">-></span></a>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="source" aria-labelledby="source-title">
+        <div class="source-inner">
+          <div>
+            <p class="eyebrow">GitHub</p>
+            <h2 id="source-title">代码和更新都在仓库里</h2>
+            <p>有些项目很久没动，有些还在补。README、issue 和提交记录会比这一页更细。</p>
+          </div>
+          <a class="source-link" href="https://github.com/wxxsw?tab=repositories" target="_blank" rel="noreferrer">打开 GitHub</a>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    const featuredRepos = new Set([
+      "SwiftTheme",
+      "SwiftUI-WeChat",
+      "VideoPlayer",
+      "GSMessages",
+      "Refresh",
+      "GSPlayer"
+    ]);
+    const excludedRepos = new Set(["wxxsw.github.io", "wxxsw"]);
+    const repoDescriptions = {
+      SwiftTheme: "iOS 主题和换肤管理，支持暗色模式，适合需要多套视觉风格的 App。",
+      "SwiftUI-WeChat": "用 SwiftUI 复刻微信 7.0 的界面和交互，适合看 SwiftUI 真实页面怎么拆。",
+      VideoPlayer: "SwiftUI 视频播放器，处理缓存、预加载和自定义控制层这些更贴近日常业务的细节。",
+      GSMessages: "Swift 消息提示组件，适合放轻量通知、状态反馈和短提示。",
+      Refresh: "SwiftUI 下拉刷新和上拉加载控件，尽量把常见列表状态处理得顺手一点。",
+      GSPlayer: "UIKit 方向的视频播放器，覆盖边下边播、预加载、全屏转场和控制层定制。",
+      GSImageViewerController: "带缩放转场的图片浏览控制器，偏 UIKit 场景，用起来直接。",
+      GSCaptchaButton: "为普通按钮增加验证码倒计时功能，不影响按钮样式。",
+      GSRefresh: "可自定义的下拉刷新和加载更多控件，适合老项目里继续用。",
+      TabBar: "SwiftUI 自定义 TabBar，给默认 TabView 留出更多可控空间。",
+      GSAlert: "Swift 写的 UIAlertController 封装，照顾 iOS 7 之后的旧系统兼容。",
+      "POP-SnapKit": "把 SnapKit 和 Facebook Pop 动画框架接在一起，用约束写动画更省心。",
+      GSPhotos: "PhotosKit + ALAssetsLibrary，支持 iOS 7+，基于 Swift。",
+      GSChange: "同步点赞、关注这类状态变化的小工具，解决多处界面状态不一致的问题。",
+      GSVerificationCode: "验证码控件，支持设置输入长度、自定义外观等。",
+      SwiftThemeResources: "SwiftTheme 示例项目用到的资源文件，单独放出来方便引用。",
+      "ctrl-alt-ship": "把 AI 辅助工程里的常见场景整理成一张图，偏实践，不讲玄学。",
+      ImageViewer: "图片浏览相关项目的归档仓库，留作参考。",
+      skillcheck: "给 agent skill 做安全评分和证据检查的小工具，偏工程验证。",
+      LAME: "C 代码归档仓库，保留在公开项目列表里。"
+    };
+    const grid = document.querySelector("#project-grid");
+
+    const compact = new Intl.NumberFormat("en", {
+      notation: "compact",
+      maximumFractionDigits: 1
+    });
+    const plain = new Intl.NumberFormat("en");
+    const zhDate = new Intl.DateTimeFormat("zh-CN", {
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit"
+    });
+
+    const escapeHTML = (value) => String(value || "")
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#39;");
+
+    const formatDate = (value) => value ? value.slice(0, 10) : "n/a";
+    const formatLanguage = (value) => value || "Resource";
+
+    function renderRepo(repo) {
+      const description = repoDescriptions[repo.name] || repo.description || "GitHub 上的公开仓库。";
+      const language = formatLanguage(repo.language);
+      const branch = repo.default_branch || "main";
+      const featured = featuredRepos.has(repo.name) ? " featured" : "";
+
+      return `
+        <article class="project-card${featured}">
+          <div class="project-topline">
+            <span>${escapeHTML(language)}</span>
+            <span>${escapeHTML(compact.format(repo.stargazers_count))} stars</span>
+          </div>
+          <a class="project-title" href="${escapeHTML(repo.html_url)}" target="_blank" rel="noreferrer">${escapeHTML(repo.name)}</a>
+          <p class="project-description">${escapeHTML(description)}</p>
+          <dl class="project-stats">
+            <div><dt>Forks</dt><dd>${escapeHTML(plain.format(repo.forks_count))}</dd></div>
+            <div><dt>更新</dt><dd>${escapeHTML(formatDate(repo.updated_at))}</dd></div>
+            <div><dt>分支</dt><dd>${escapeHTML(branch)}</dd></div>
+          </dl>
+          <a class="project-link" href="${escapeHTML(repo.html_url)}" target="_blank" rel="noreferrer">查看仓库 <span aria-hidden="true">-&gt;</span></a>
+        </article>
+      `;
+    }
+
+    function setText(selector, value) {
+      const node = document.querySelector(selector);
+      if (node) node.textContent = value;
+    }
+
+    async function refreshGitHubData() {
+      try {
+        const headers = { "Accept": "application/vnd.github+json" };
+        const [userResponse, repoResponse] = await Promise.all([
+          fetch("https://api.github.com/users/wxxsw", { headers }),
+          fetch("https://api.github.com/users/wxxsw/repos?per_page=100&sort=updated&type=owner", { headers })
+        ]);
+
+        if (!userResponse.ok || !repoResponse.ok) return;
+
+        const user = await userResponse.json();
+        const repos = await repoResponse.json();
+        const works = repos
+          .filter((repo) => !repo.fork && !excludedRepos.has(repo.name))
+          .sort((a, b) => b.stargazers_count - a.stargazers_count || a.name.localeCompare(b.name));
+
+        const stars = works.reduce((total, repo) => total + repo.stargazers_count, 0);
+        const forks = works.reduce((total, repo) => total + repo.forks_count, 0);
+
+        setText("[data-stat='works']", plain.format(works.length));
+        setText("[data-stat='stars']", compact.format(stars));
+        setText("[data-stat='forks']", plain.format(forks));
+        setText("[data-stat='followers']", plain.format(user.followers || 0));
+        setText("[data-updated]", zhDate.format(new Date()));
+
+        if (works.length) {
+          grid.innerHTML = works.map(renderRepo).join("");
+        }
+      } catch (error) {
+        // Keep the static repository list if GitHub is unavailable.
+      }
+    }
+
+    if ("serviceWorker" in navigator) {
+      navigator.serviceWorker.getRegistrations()
+        .then((registrations) => registrations.forEach((registration) => registration.unregister()));
+    }
+
+    if ("caches" in window) {
+      caches.keys().then((keys) => keys.forEach((key) => caches.delete(key)));
+    }
+
+    refreshGitHubData();
+  </script>
+</body>
+</html>
